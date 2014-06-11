@@ -1,2 +1,5 @@
 /src/LitJson/AssemblyInfo.cs
 /website
+bin/
+obj/
+*.user
