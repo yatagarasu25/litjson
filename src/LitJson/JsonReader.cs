@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -265,13 +266,11 @@ namespace LitJson
                 number.IndexOf ('e') != -1 ||
                 number.IndexOf ('E') != -1) {
 
-                double n_double;
-                if (Double.TryParse (number, out n_double)) {
-                    token = JsonToken.Double;
-                    token_value = n_double;
+				double n_double = Convert.ToDouble(number, new NumberFormatInfo { NumberDecimalSeparator = "." });
+                token = JsonToken.Double;
+                token_value = n_double;
 
-                    return;
-                }
+                return;
             }
 
             int n_int32;
