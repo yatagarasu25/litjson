@@ -44,6 +44,7 @@
     <Compile Include="src\LitJson\JsonMapper.cs" />
     <Compile Include="src\LitJson\JsonMockWrapper.cs" />
     <Compile Include="src\LitJson\JsonReader.cs" />
+    <Compile Include="src\LitJson\JsonSerializerEx.cs" />
     <Compile Include="src\LitJson\JsonWriter.cs" />
     <Compile Include="src\LitJson\Lexer.cs" />
     <Compile Include="src\LitJson\ParserToken.cs" />
