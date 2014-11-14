@@ -338,6 +338,28 @@ namespace LitJson
                             inst_type));
             }
 
+			// If there's a custom importer that fits, use it
+			if (custom_importers_table.ContainsKey(typeof(JsonReader)) &&
+				custom_importers_table[typeof(JsonReader)].ContainsKey(
+					value_type)) {
+
+				ImporterFunc importer =
+					custom_importers_table[typeof(JsonReader)][value_type];
+
+				return importer(reader.Value);
+			}
+
+			// Maybe there's a base importer that works
+			if (base_importers_table.ContainsKey(typeof(JsonReader)) &&
+				base_importers_table[typeof(JsonReader)].ContainsKey(
+					value_type)) {
+
+				ImporterFunc importer =
+					base_importers_table[typeof(JsonReader)][value_type];
+
+				return importer(reader.Value);
+			}
+
             if (reader.Token == JsonToken.Double ||
                 reader.Token == JsonToken.Int ||
                 reader.Token == JsonToken.Long ||
