@@ -320,23 +320,8 @@ namespace LitJson
 
         private static object ReadValue (Type inst_type, JsonReader reader)
         {
-            reader.Read ();
-
-            if (reader.Token == JsonToken.ArrayEnd)
-                return null;
-
-            Type underlying_type = Nullable.GetUnderlyingType(inst_type);
-            Type value_type = underlying_type ?? inst_type;
-
-            if (reader.Token == JsonToken.Null) {
-                if (inst_type.IsClass || underlying_type != null) {
-                    return null;
-                }
-
-                throw new JsonException (String.Format (
-                            "Can't assign null to an instance of type {0}",
-                            inst_type));
-            }
+			Type underlying_type = Nullable.GetUnderlyingType(inst_type);
+			Type value_type = underlying_type ?? inst_type;
 
 			// If there's a custom importer that fits, use it
 			if (custom_importers_table.ContainsKey(typeof(JsonReader)) &&
@@ -359,6 +344,21 @@ namespace LitJson
 
 				return importer(reader.Value);
 			}
+			
+			reader.Read();
+
+            if (reader.Token == JsonToken.ArrayEnd)
+                return null;
+
+            if (reader.Token == JsonToken.Null) {
+                if (inst_type.IsClass || underlying_type != null) {
+                    return null;
+                }
+
+                throw new JsonException (String.Format (
+                            "Can't assign null to an instance of type {0}",
+                            inst_type));
+            }
 
             if (reader.Token == JsonToken.Double ||
                 reader.Token == JsonToken.Int ||
